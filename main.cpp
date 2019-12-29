@@ -2,9 +2,15 @@
 #include "WIZnetInterface.h"
 #include <MQTTClientMbedOs.h>
 
+#define SW_USER PC_6
 
+// ### Output for relais control ###
 DigitalOut relais11(LED_BLUE);//D11
 DigitalOut relais12(LED_GREEN);//D12
+DigitalOut led(LED_RED);
+
+// ### Input buttons ###
+DigitalIn button(SW_USER);
 
 
 // ### Prototypes ###
@@ -107,6 +113,8 @@ int main()
 
 
     while (true) {
+
+        led = button;
 
         if (timer1.read_ms() >= 10000){
             timer1.reset();
