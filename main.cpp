@@ -90,10 +90,10 @@ int main()
     message.qos = MQTT::QOS1;
     message.retained = false;
     message.dup = false;
+    message.payload = (void*)buf;
 
     // ### MQTT Set MEssage ###
     sprintf(buf, "Just Started");
-    message.payload = (void*)buf;
     message.payloadlen = strlen(buf);
 
     // ### MQTT Publish Message ###
@@ -108,9 +108,11 @@ int main()
 
     while (true) {
 
-        if (timer1.read_ms() >= 5000){
+        if (timer1.read_ms() >= 10000){
             timer1.reset();
 
+            sprintf(buf, "10s Loop");
+            message.payloadlen = strlen(buf);
             rc = mqttclient.publish("/wiznet",message);
             
             if ( (rc != 0) || (rc2 != 0) ){
