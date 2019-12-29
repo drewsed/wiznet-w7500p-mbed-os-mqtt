@@ -5,8 +5,8 @@
 #define SW_USER PC_6
 
 // ### Output for relais control ###
-DigitalOut relais11(LED_BLUE);//D11
-DigitalOut relais12(LED_GREEN);//D12
+DigitalOut relais11(D11);//D11 LED_BLUE
+DigitalOut relais12(D12);//D12 LED_GREEN
 DigitalOut led(LED_RED);
 
 // ### Input buttons ###
@@ -22,9 +22,9 @@ void relais12_messageArrived(MQTT::MessageData& md);
 // main() runs in its own thread in the OS
 int main()
 {
-    relais11 = 1;
-    relais12 = 1;
-
+    relais11 = 0;
+    relais12 = 0;
+    
     Serial s(USBTX, USBRX);
     s.baud(115200);
     ThisThread::sleep_for(1000);
@@ -147,10 +147,15 @@ void relais11_messageArrived(MQTT::MessageData& md)
     MQTT::Message &message = md.message;
     //printf("Message arrived: qos %d, retained %d, dup %d, packetid %d\r\n", message.qos, message.retained, message.dup, message.id);
     if( strncmp((char*)message.payload,"ON",message.payloadlen) == 0 ){
-        relais11 = 0;
+        relais11 = 1;
     } 
     else if( strncmp((char*)message.payload,"OFF",message.payloadlen) == 0 ){
+        relais11 = 0;
+    }
+    else if( strncmp((char*)message.payload,"TOGGLE",message.payloadlen) == 0 ){
         relais11 = 1;
+        ThisThread::sleep_for(100);
+        relais11 = 0;
     }
 }
 
@@ -159,9 +164,9 @@ void relais12_messageArrived(MQTT::MessageData& md)
     MQTT::Message &message = md.message;
     //printf("Message arrived: qos %d, retained %d, dup %d, packetid %d\r\n", message.qos, message.retained, message.dup, message.id);
     if( strncmp((char*)message.payload,"ON",message.payloadlen) == 0 ){
-        relais12 = 0;
+        relais12 = 1;
     } 
     else if( strncmp((char*)message.payload,"OFF",message.payloadlen) == 0 ){
-        relais12 = 1;
+        relais12 = 0;
     }
 }
