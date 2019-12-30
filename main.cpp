@@ -116,7 +116,7 @@ int main()
 
         led = button;
 
-        if (timer1.read_ms() >= 10000){
+        if (timer1.read_ms() >= 30000){
             timer1.reset();
 
             sprintf(buf, "10s Loop");
@@ -124,11 +124,11 @@ int main()
             rc = mqttclient.publish("/wiznet",message);
             
             if ( (rc != 0) || (rc2 != 0) ){
-                printf("[MQTT] Publish failed %d ---- %d loops\n", rc,loopCnt);
+                //printf("[MQTT] Publish failed %d ---- %d loops\n", rc,loopCnt);
                 NVIC_SystemReset(); //connection lost! software reset
                 return 0;
             }
-            else printf("[MQTT] Publish success %d yield() returned %d and took: %d ms \r\n", rc,rc2,timeYield); 
+           // else printf("[MQTT] Publish success %d yield() returned %d and took: %d ms \r\n", rc,rc2,timeYield); 
         }
 
         timer2.start();
