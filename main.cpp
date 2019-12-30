@@ -10,7 +10,7 @@ DigitalOut relais12(D12);//D12 LED_GREEN
 DigitalOut led(LED_RED);
 
 // ### Input buttons ###
-DigitalIn button(SW_USER);
+DigitalIn button(SW_USER,PullUp);
 
 
 // ### Prototypes ###
