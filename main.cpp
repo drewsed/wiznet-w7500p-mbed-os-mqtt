@@ -119,7 +119,7 @@ int main()
         if (timer1.read_ms() >= 30000){
             timer1.reset();
 
-            sprintf(buf, "10s Loop");
+            sprintf(buf, "30s Loop");
             message.payloadlen = strlen(buf);
             rc = mqttclient.publish("/wiznet",message);
             
